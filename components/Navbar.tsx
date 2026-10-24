@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -19,6 +20,7 @@ export default function Navbar() {
   return (
     <header className="fixed left-0 right-0 top-0 z-[9999] w-full border-b border-white/10 bg-[#10100e] text-white">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 md:px-10">
+        {/* Logo */}
         <Link
           href="/"
           onClick={() => setMenuAbierto(false)}
@@ -30,10 +32,11 @@ export default function Navbar() {
           </span>
         </Link>
 
-        {/* Menú de Escritorio */}
+        {/* Menú de escritorio */}
         <nav className="hidden items-center gap-6 md:flex">
           {navigation.map((item) => {
             const activo = pathname === item.href;
+
             return (
               <Link
                 key={item.href}
@@ -50,25 +53,29 @@ export default function Navbar() {
           })}
         </nav>
 
-        {/* ¡AQUÍ ESTÁ EL BOTÓN DE LAS 3 RAYITAS YA MODIFICADO! */}
+        {/* Botón del menú móvil */}
         <button
           type="button"
-          onClick={() => {
-            alert("¡El botón sí funciona!");
-            setMenuAbierto(!menuAbierto);
-          }}
+          onClick={() =>
+            setMenuAbierto((abierto) => !abierto)
+          }
+          aria-label={
+            menuAbierto ? "Cerrar menú" : "Abrir menú"
+          }
+          aria-expanded={menuAbierto}
           className="relative z-[999999] pointer-events-auto flex h-12 w-12 items-center justify-center rounded-xl border border-white/20 bg-white/5 text-3xl text-orange-500 md:hidden"
         >
           {menuAbierto ? "×" : "☰"}
         </button>
       </div>
 
-      {/* Menú Móvil Desplegable */}
+      {/* Menú móvil desplegable */}
       {menuAbierto && (
-        <div className="absolute left-0 top-20 w-full border-b border-white/10 bg-[#10100e] md:hidden flex flex-col shadow-2xl">
+        <div className="absolute left-0 top-20 flex w-full flex-col border-b border-white/10 bg-[#10100e] shadow-2xl md:hidden">
           <nav className="mx-auto flex w-full max-w-7xl flex-col px-5 py-2">
             {navigation.map((item) => {
               const activo = pathname === item.href;
+
               return (
                 <Link
                   key={item.href}
@@ -81,8 +88,11 @@ export default function Navbar() {
                   }`}
                 >
                   {item.label}
+
                   {activo && (
-                    <span className="float-right text-orange-500">●</span>
+                    <span className="float-right text-orange-500">
+                      ●
+                    </span>
                   )}
                 </Link>
               );
